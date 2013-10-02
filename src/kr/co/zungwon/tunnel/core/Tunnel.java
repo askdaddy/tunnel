@@ -16,6 +16,10 @@ public class Tunnel {
 		System.out.println("Tunneling start");
 		// TODO 소케서버를 생성
 		
+		// TODO 클라이언트 소켓 생성
+		
+		// TODO 클라이언트쓰레드 생성
+		
 		System.out.println("Tunneling teminate");
 	}
 
