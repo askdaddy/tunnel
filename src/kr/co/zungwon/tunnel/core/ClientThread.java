@@ -47,14 +47,8 @@ public class ClientThread extends Thread{
 			 serverOut = mServerSocket.getOutputStream();
 		} 
 		catch (IOException  e) {
-			// TODO Auto-generated catch block
-			try {
-				connectionBroken();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} 
-			
+
+			connectionBroken();			
             return; 
 		}
 		// Start forwarding data between server and client 
@@ -75,9 +69,15 @@ public class ClientThread extends Thread{
 	 * 클라이언트 소켓을 닫고, 서버 소켓의 모든 스레드에게 끊는 작업이 완료될때가 기다리게한다.
 	 * 
 	 */
-	public synchronized void connectionBroken() throws Exception {
-		mServerSocket.close();
-		mClientSocket.close();
+	public synchronized void connectionBroken(){
+		try {
+			mServerSocket.close();
+			mClientSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		if(mForwardingActive) {
 			mForwardingActive = false;
 		}
