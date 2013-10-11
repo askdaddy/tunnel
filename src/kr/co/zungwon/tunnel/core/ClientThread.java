@@ -1,6 +1,10 @@
 package kr.co.zungwon.tunnel.core;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /** 
  * ClientThread는 클라이언트와 서버 사이에 포워딩을 시작하기 위한 작용을 담당한다.
@@ -15,12 +19,54 @@ public class ClientThread extends Thread{
 
 	public ClientThread(Socket clientSocket) {
 		// TODO Auto-generated constructor stub
+		mClientSocket = clientSocket;
 	}
 	
 	/**
 	 * 목적지 서버에 연결을 수행하고 클라이언트와 서버간에 양방향 포워딩을 시작한다.
 	 */
 	public void run() {
+		InputStream clientIn, serverIn;
+		OutputStream clientOut, serverOut;
+		
+		try {
+			 // Connect to the destination server 
+			 // 목적지 서버에 연결
+			mServerSocket = new Socket(Tunnel.dstHost, Tunnel.dstPort);
+			// Turn on keep-alive for both the sockets 
+			// 소켓두개 모두 keep-allive 상태로 설정한다.
+			mClientSocket.setKeepAlive(true);
+			mServerSocket.setKeepAlive(true);
+			
+			// Obtain client & server input & output streams 
+			// 클라이언트와 서버의 입출력 스트림을 받는다.
+			clientIn = mClientSocket.getInputStream();
+			serverIn = mServerSocket.getInputStream(); 
+			
+			 clientOut = mClientSocket.getOutputStream(); 
+			 serverOut = mServerSocket.getOutputStream();
+		} 
+		catch (IOException  e) {
+			// TODO Auto-generated catch block
+			try {
+				connectionBroken();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
+			
+            return; 
+		}
+		// Start forwarding data between server and client 
+		// 서버와 클라이언트 사이에 데이타의 포워딩을 시작한다.
+		mForwardingActive = true; 
+		//+---> client In --> server Out ---+
+	    ForwardThread clientForward = new ForwardThread(this, clientIn, serverOut);
+	    //+---> client Out <-- server In ---+
+	    ForwardThread serverForward = new ForwardThread(this, serverIn, clientOut);
+	    
+		clientForward.start();
+		serverForward.start(); 
 		
 	}
 	
