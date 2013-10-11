@@ -42,7 +42,8 @@ public class ClientThread extends Thread{
 			// 클라이언트와 서버의 입출력 스트림을 받는다.
 			clientIn = mClientSocket.getInputStream();
 			serverIn = mServerSocket.getInputStream(); 
-			
+			//필터링 클래스 주입
+			//조건에 만족하지 않으면 에러를 던져 예외처리 시킴
 			 clientOut = mClientSocket.getOutputStream(); 
 			 serverOut = mServerSocket.getOutputStream();
 		} 
@@ -56,7 +57,7 @@ public class ClientThread extends Thread{
 		mForwardingActive = true; 
 		//+---> client In --> server Out ---+
 	    ForwardThread clientForward = new ForwardThread(this, clientIn, serverOut);
-	    //+---> client Out <-- server In ---+
+	    //+<--- client Out <-- server In ---+
 	    ForwardThread serverForward = new ForwardThread(this, serverIn, clientOut);
 	    
 		clientForward.start();

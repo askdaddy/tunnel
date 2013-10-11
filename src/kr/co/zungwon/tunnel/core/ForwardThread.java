@@ -41,7 +41,8 @@ public class ForwardThread extends Thread {
                 int bytesRead = mInputStream.read(buffer); 
                 if (bytesRead == -1) 
                     break; // End of stream is reached --> exit  스트림의 끝에 도달
-              
+                
+                Filter filter = new Filter(buffer, 0, bytesRead);
                 mOutputStream.write(buffer, 0, bytesRead);
                 mOutputStream.flush(); 
                 
