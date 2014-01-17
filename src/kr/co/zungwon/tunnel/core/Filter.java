@@ -5,10 +5,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.util.*;
 
 public class Filter {
+	
+	String name;
 	
 	public String openFileToString(byte[] _bytes)
 	{
@@ -65,6 +66,12 @@ public class Filter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	public Filter(String name) {
+		// TODO Auto-generated constructor stub
+		this.name = name;
 	}
 	
 

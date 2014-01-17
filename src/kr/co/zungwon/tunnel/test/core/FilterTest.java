@@ -10,7 +10,7 @@ public class FilterTest {
 		Filter filterTest = new Filter("string");
 		
 		if(filterTest == null) {
-			throw new Exception("ÆÄÀÏ»ý¼º½ÇÆÐ");
+			throw new Exception("ï¿½ï¿½ï¿½Ï»ï¿½ï¿½ï¿½ï¿½");
 		}
 		
 	}
