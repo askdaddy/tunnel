@@ -7,8 +7,8 @@ import java.net.Socket;
 
 public class Tunnel {
 
-			public static final int srcPort = 8888;
-			public static final int dstPort = 3389;
+			public static final int srcPort = 18881;
+			public static final int dstPort = 1433;
 			public static final String dstHost = "211.201.139.10";
 			//public static final String dstHost = "movie.naver.com";
 	/**
